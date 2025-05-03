@@ -6,7 +6,7 @@ void Engine::input()
     unsigned int width = desktop.width / 2;
     unsigned int height = desktop.height / 2;
 
-    RenderWindow m_Window(VideoMode(width, height), "Particles");
+   
     while (m_Window.isOpen()) 
     {
         Event event;
@@ -25,8 +25,8 @@ void Engine::input()
                         int start = 25; int end = 50;
                         int numPoints = (rand() % (start + end - 1)) + start;
                         Vector2i mousePos = Mouse::getPosition(m_Window);
-                        Particle p(RenderTarget(), numPoints, mousePos);
-                        m_particles.push_back();
+                        Particle p(m_Window, numPoints, mousePos);
+                        m_particles.push_back(p);
                     }
                 }
                     
@@ -43,9 +43,9 @@ void Engine::update(float dtAsSeconds)
     Time dt = clk.restart();
     for (auto iter = m_particles.begin(); iter != m_particles.end(); )
     {
-        if (iter.getTTL() > 0.0)
+        if (iter->getTTL() > 0.0)
         {
-            iter.update(dt);
+            iter->update(dtAsSeconds);
             iter++;
         }
         else
@@ -59,13 +59,13 @@ void Engine::draw()
     m_Window.clear();
     for (auto p : m_particles)
     {
-        m_window.draw(p);
+        m_Window.draw(p);
     }
-    m_window.display();
+    m_Window.display();
 }
 Engine::Engine()
 {
-    m_Window.create(VideoMode::getDesktopMode());
+    m_Window.create(VideoMode::getDesktopMode(), "Particles");
 }
 void Engine::run()
 {

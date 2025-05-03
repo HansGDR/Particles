@@ -16,7 +16,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     m_color1 = Color(255,255,255);              /// EXPERIMENT
     m_color2 = Color(rand() % 256, rand() % 256, rand() % 256);   /// EXPERIMENT
     
-    float theta = rand() % (M_PI / 2);
+    float theta = static_cast<float>rand() % (M_PI / 2); //look at maybe ba problem
     float dTheta = 2 * M_PI / (numPoints -1);
     for (int j = 0; j < numPoints; j++)
     {
@@ -51,7 +51,7 @@ void Particle::update(float dt)
     float dx, dy;
     dx = m_vx * dt;
     m_vy -= G * dt;
-    dy = m_vy * dt
+    dy = m_vy * dt;
     translate(dx, dy);
 }
 void Particle::rotate(double theta)

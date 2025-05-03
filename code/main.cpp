@@ -3,10 +3,12 @@
 #include <ctime>
 using namespace std;
 
-srand(time(0));
+
 
 int main()
 {
+	// Random seed
+	srand(static_cast<unsigned int>(time(0)));
 	// Declare an instance of Engine
 	Engine engine;
 	// Start the engine
