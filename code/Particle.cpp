@@ -11,12 +11,12 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
     int start0 = 100; int end0 = 500;
-    m_vx = ((rand() % (end0 +start0 -1)) + start0) * (rand()% 2 ? -1 : 1);
-    m_vy = ((rand() % (end0 +start0 -1)) + start0);
+    m_vx *= (rand() % 2 ? -1 : 1);
+    m_vy = ((rand() % (end0 - start0 + 1)) + start0);
     m_color1 = Color(255,255,255);              /// EXPERIMENT
     m_color2 = Color(rand() % 256, rand() % 256, rand() % 256);   /// EXPERIMENT
     
-    float theta = static_cast<float>rand() / RAND_MAX * (M_PI / 2); //look at maybe ba problem
+    float theta = static_cast<float>(rand()) / RAND_MAX * (M_PI / 2); //look at maybe ba problem
     float dTheta = 2 * M_PI / (numPoints -1);
     for (int j = 0; j < numPoints; j++)
     {
@@ -38,10 +38,11 @@ void Particle::draw(RenderTarget& target, RenderStates states) const
     lines[0].color = m_color1;
     for (int j = 1; j <= m_numPoints; j++)
     {
-        lines[j].position = target.mapPixelToCoords(Vector2f(m_A(0, j-1), m_A(1, j-1)), m_cartesianPlane);
+        Vector2i pixelPos(static_cast<int>(m_A(0, j-1)), static_cast<int>(m_A(1, j-1)));
+        lines[j].position = target.mapPixelToCoords(pixelPos, m_cartesianPlane);
         lines[j].color = m_color2;
     }
-    target.draw(lines);
+    target.draw(lines, states);
 }
 void Particle::update(float dt)
 {
