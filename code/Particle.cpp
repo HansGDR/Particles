@@ -16,7 +16,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     m_color1 = Color(255,255,255);              /// EXPERIMENT
     m_color2 = Color(rand() % 256, rand() % 256, rand() % 256);   /// EXPERIMENT
     
-    float theta = static_cast<float>rand() % (M_PI / 2); //look at maybe ba problem
+    float theta = static_cast<float>rand() / RAND_MAX * (M_PI / 2); //look at maybe ba problem
     float dTheta = 2 * M_PI / (numPoints -1);
     for (int j = 0; j < numPoints; j++)
     {
@@ -30,7 +30,7 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
         theta += dTheta;
     }
 }
-virtual void Particle::draw(RenderTarget& target, RenderStates states) const override
+void Particle::draw(RenderTarget& target, RenderStates states) const 
 {
     VertexArray lines(TriangleFan, m_numPoints + 1);
     Vector2f center = m_centerCoordinate; /// NOT-SURE

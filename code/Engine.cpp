@@ -7,8 +7,7 @@ void Engine::input()
     unsigned int height = desktop.height / 2;
 
    
-    while (m_Window.isOpen()) 
-    {
+
         Event event;
         while (m_Window.pollEvent(event)) 
         {
@@ -23,7 +22,7 @@ void Engine::input()
                     for (int i = 0; i < numParticles; i++)
                     {
                         int start = 25; int end = 50;
-                        int numPoints = (rand() % (start + end - 1)) + start;
+                        int numPoints = (rand() % (end + start - 1)) + start;
                         Vector2i mousePos = Mouse::getPosition(m_Window);
                         Particle p(m_Window, numPoints, mousePos);
                         m_particles.push_back(p);
@@ -35,7 +34,7 @@ void Engine::input()
 
         if (Keyboard::isKeyPressed(Keyboard::Escape))
             m_Window.close();
-    }
+    
 }
 void Engine::update(float dtAsSeconds)
 {
@@ -69,6 +68,7 @@ Engine::Engine()
 }
 void Engine::run()
 {
+ 
     // Unit Testngs
     cout << "Starting Particle unit tests..." << endl;
     Particle p(m_Window, 4, { (int)m_Window.getSize().x / 2, (int)m_Window.getSize().y / 2 });
