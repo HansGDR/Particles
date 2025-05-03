@@ -1,4 +1,9 @@
 #include "Engine.h"
+#include <cstdlib>
+#include <ctime>
+using namespace std;
+
+srand(time(0));
 
 int main()
 {
