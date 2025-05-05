@@ -11,18 +11,18 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
     m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
     int start0 = 100; int end0 = 500;
-    m_vx *= (rand() % 2 ? -1 : 1);
-    m_vy = ((rand() % (end0 - start0 + 1)) + start0);
+    m_vx = ((rand() % (end0 -start0 +1)) + start0) * (rand()% 2 ? -1 : 1);
+    m_vy = ((rand() % (end0 -start0 +1)) + start0);
     m_color1 = Color(255,255,255);              /// EXPERIMENT
     m_color2 = Color(rand() % 256, rand() % 256, rand() % 256);   /// EXPERIMENT
     
-    float theta = static_cast<float>(rand()) / RAND_MAX * (M_PI / 2); //look at maybe ba problem
+    float theta = rand() % (int)(M_PI / 2);  // FIX-ME
     float dTheta = 2 * M_PI / (numPoints -1);
     for (int j = 0; j < numPoints; j++)
     {
         float r, dx, dy;
         int start1 = 20; int end1 = 80;
-        r = (rand() % (end1 + start1 - 1)) + start1;
+        r = (rand() % (end1 - start1 + 1)) + start1;
         dx = r * cos(theta);
         dy = r * sin(theta);
         m_A(0,j) = m_centerCoordinate.x + dx;
@@ -30,16 +30,15 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
         theta += dTheta;
     }
 }
-void Particle::draw(RenderTarget& target, RenderStates states) const 
+void Particle::draw(RenderTarget& target, RenderStates states) const
 {
     VertexArray lines(TriangleFan, m_numPoints + 1);
-    Vector2f center = m_centerCoordinate; /// NOT-SURE
-    lines[0].position = center;
+    lines[0].position = Vector2f(target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane));
     lines[0].color = m_color1;
     for (int j = 1; j <= m_numPoints; j++)
     {
-        Vector2i pixelPos(static_cast<int>(m_A(0, j-1)), static_cast<int>(m_A(1, j-1)));
-        lines[j].position = target.mapPixelToCoords(pixelPos, m_cartesianPlane);
+        Vector2f cPos(m_A(0, j-1), m_A(1, j-1));
+        lines[j].position = Vector2f(target.mapCoordsToPixel(cPos, m_cartesianPlane));
         lines[j].color = m_color2;
     }
     target.draw(lines, states);
