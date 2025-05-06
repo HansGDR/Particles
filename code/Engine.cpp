@@ -1,9 +1,11 @@
 #include "Engine.h"
-
+#include "TextureHolder.h"
+using namespace sf;
 void Engine::input()
 {
     VideoMode desktop = VideoMode::getDesktopMode();
-        
+     m_BackgroundTexture = TextureHolder::GetTexture("graphics/astro.png");
+     m_BackgroundSprite.setTexture(m_BackgroundTexture);
     Event event;
     while (m_Window.pollEvent(event)) 
     {
@@ -33,8 +35,7 @@ void Engine::input()
 }
 void Engine::update(float dtAsSeconds)
 {
-    // Clock clk;
-    // Time dt = clk.restart();
+
     for (auto iter = m_particles.begin(); iter != m_particles.end(); )
     {
         if (iter->getTTL() > 0.0)
@@ -51,8 +52,12 @@ void Engine::update(float dtAsSeconds)
 void Engine::draw()
 {
     m_Window.clear();
+
+
+    m_Window.draw(m_BackgroundSprite);
     for (auto p : m_particles)
     {
+       
         m_Window.draw(p);
     }
     m_Window.display();

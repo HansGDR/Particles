@@ -5,6 +5,7 @@
 #include <iostream>
 #include <vector>
 #include <iomanip>
+#include "TextureHolder.h"
 using namespace std;
 
 namespace Matrices

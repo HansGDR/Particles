@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include "Particle.h"
+#include "TextureHolder.h"
 using namespace sf;
 using namespace std;
 
@@ -9,7 +10,9 @@ class Engine
 private:
 	// A regular RenderWindow
 	RenderWindow m_Window;
-
+	TextureHolder th;
+	Sprite m_BackgroundSprite;
+	Texture m_BackgroundTexture;
 	//vector for Particles
 	vector<Particle> m_particles;
 
@@ -24,5 +27,7 @@ public:
 
 	// Run will call all the private functions
 	void run();
+	
+
 
 };
