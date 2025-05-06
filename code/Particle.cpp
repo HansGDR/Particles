@@ -5,23 +5,26 @@ Particle::Particle(RenderTarget& target, int numPoints, Vector2i mouseClickPosit
 {
     m_ttl = TTL;
     m_numPoints = numPoints;
-    m_radiansPerSec = M_PI * ((float)rand() / (RAND_MAX));
+    m_radiansPerSec = M_PI * ((float)rand() / (RAND_MAX));      // Spin Velocity
 
     m_cartesianPlane.setCenter(0,0);
     m_cartesianPlane.setSize(target.getSize().x, (-1.0) * target.getSize().y);
     m_centerCoordinate = target.mapPixelToCoords(mouseClickPosition, m_cartesianPlane);
-    int start0 = 100; int end0 = 500;
+    int start0 = 100; int end0 = 500;       // x, y velocities
     m_vx = ((rand() % (end0 -start0 +1)) + start0) * (rand()% 2 ? -1 : 1);
     m_vy = ((rand() % (end0 -start0 +1)) + start0);
     m_color1 = Color(255,255,255);              /// EXPERIMENT
-    m_color2 = Color(rand() % 256, rand() % 256, rand() % 256);   /// EXPERIMENT
-    
-    float theta = rand() % (int)(M_PI / 2);  // FIX-ME
+    m_numColors = 100;
+    for (int i = 0; i < m_numColors; i++)
+    {
+        m_color2.push_back(Color(rand() % 256, rand() % 256, rand() % 256));   /// EXPERIMENT
+    }   
+    float theta = rand() % (int)(M_PI / 2);
     float dTheta = 2 * M_PI / (numPoints -1);
     for (int j = 0; j < numPoints; j++)
     {
         float r, dx, dy;
-        int start1 = 20; int end1 = 80;
+        int start1 = 50; int end1 = 130;                  // Makes the spikes smaller
         r = (rand() % (end1 - start1 + 1)) + start1;
         dx = r * cos(theta);
         dy = r * sin(theta);
@@ -35,11 +38,12 @@ void Particle::draw(RenderTarget& target, RenderStates states) const
     VertexArray lines(TriangleFan, m_numPoints + 1);
     lines[0].position = Vector2f(target.mapCoordsToPixel(m_centerCoordinate, m_cartesianPlane));
     lines[0].color = m_color1;
+    int randColorPos = rand() % m_numColors;
     for (int j = 1; j <= m_numPoints; j++)
     {
         Vector2f cPos(m_A(0, j-1), m_A(1, j-1));
         lines[j].position = Vector2f(target.mapCoordsToPixel(cPos, m_cartesianPlane));
-        lines[j].color = m_color2;
+        lines[j].color = m_color2.at(randColorPos);
     }
     target.draw(lines, states);
 }

@@ -14,7 +14,7 @@ void Engine::input()
         {
             if (event.mouseButton.button == Mouse::Left)
             {
-                int numParticles = 5;
+                int numParticles = 5;           // Increase the numParticles
                 for (int i = 0; i < numParticles; i++)
                 {
                     int start = 25; int end = 50;

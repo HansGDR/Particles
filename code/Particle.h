@@ -25,13 +25,14 @@ public:
 private:
     float m_ttl;
     int m_numPoints;
+    int m_numColors;
 	Vector2f m_centerCoordinate;
     float m_radiansPerSec;
     float m_vx;
     float m_vy;
     View m_cartesianPlane;
     Color m_color1;
-    Color m_color2;
+    vector<Color> m_color2;
     Matrix m_A;
 
     ///rotate Particle by theta radians counter-clockwise
