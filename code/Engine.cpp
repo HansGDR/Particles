@@ -6,15 +6,24 @@ void Engine::input()
     VideoMode desktop = VideoMode::getDesktopMode();
      m_BackgroundTexture = TextureHolder::GetTexture("graphics/astro.png");
      m_BackgroundSprite.setTexture(m_BackgroundTexture);
+     pingBuffer.loadFromFile("sound/pickup.wav");
+     ping.setBuffer(pingBuffer);
+     //music.openFromFile("sound/spacemusic.wav");
+     //music.setLoop(true);
+  
     Event event;
     while (m_Window.pollEvent(event)) 
     {
+       // music.play();
+     
         if (event.type == Event::Closed)
             m_Window.close();
 
         if (event.type == Event::MouseButtonPressed) 
         {
+           
             if (event.mouseButton.button == Mouse::Left)
+            ping.play();
             {
                 int numParticles = 5;           // Increase the numParticles
                 for (int i = 0; i < numParticles; i++)
@@ -65,6 +74,7 @@ void Engine::draw()
 Engine::Engine()
 {
     m_Window.create(VideoMode::getDesktopMode(), "Particles");
+    //
 }
 void Engine::run()
 {
