@@ -8,8 +8,8 @@ void Engine::input()
      m_BackgroundSprite.setTexture(m_BackgroundTexture);
      pingBuffer.loadFromFile("sound/pickup.wav");
      ping.setBuffer(pingBuffer);
-     //music.openFromFile("sound/spacemusic.wav");
-     //music.setLoop(true);
+     music.openFromFile("sound/spacemusic.wav");
+     music.setLoop(true);
   
     Event event;
     while (m_Window.pollEvent(event)) 
